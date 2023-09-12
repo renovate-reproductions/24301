@@ -1,0 +1,24 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": [
+        "^README.md$"
+      ],
+      "matchStrings": [
+        "(?<depName>[\\w/\\.]+):(?<currentValue>[^\\s]+)"
+      ],
+      "datasourceTemplate": "docker"
+    },
+    {
+      "fileMatch": ["(^|/)Dockerfile$"],
+      "matchStrings": [
+        "renovate: datasource=(?<datasource>.*?) depName=(?<depName>\\S*)( versioning=(?<versioning>.*?))?( extractVersion=(?<extractVersion>.*?))?\\nARG .*?_VERSION=(?<currentValue>.*)\\s"
+      ],
+      "extractVersionTemplate": "{{#if (equals extractVersion 'true')}}^v(?<version>\\S+){{/if}}"
+    }
+  ]
+}
